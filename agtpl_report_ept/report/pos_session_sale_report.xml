@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        1. Report Action for Session Sales Report.
+        2. Report Template For Session Sales Report
+        Task: 187286
+    -->
+    <record id="action_report_pos_sale_report_ept" model="ir.actions.report">
+        <field name="name">Session Sales Report</field>
+        <field name="model">pos.session</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">agtpl_report_ept.pos_sale_report_ept</field>
+        <field name="report_file">agtpl_report_ept.pos_sale_report_ept</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="binding_model_id" ref="point_of_sale.model_pos_session"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="pos_sale_report_ept">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="agtpl_report_ept.pos_sale_report_document_ept"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="pos_sale_report_document_ept">
+        <t t-call="web.internal_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <div class="mb16" id="basic_information">
+                    <div class="pull-left col-6">
+                        <h4 class="mt16">
+                            <strong>Session:</strong>
+                            <span t-field="o.name"/>
+                        </h4>
+                        <h5>
+                            <strong>Opening Date:</strong>
+                            <span t-field="o.start_at"/>
+                        </h5>
+                        <h5>
+                            <strong>Closing Date:</strong>
+                            <span t-field="o.stop_at"/>
+                        </h5>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+                <div class="oe_structure">
+                    <table class="table table-sm o_main_table" id="order_ids">
+                        <thead>
+                            <tr>
+                                <th name="th_date" class="text-left">Date</th>
+                                <th name="th_o_order" class="text-left">Order</th>
+                                <th name="th_o_order_invoice" class="text-left">Order/Invoice</th>
+                                <th name="th_o_customer" class="text-left">Customer</th>
+                                <th name="th_o_payment_method" class="text-left">Payment Method
+                                </th>
+                                <th name="th_o_amount" class="text-right">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody class="invoice_tbody">
+                            <t t-set="orders" t-value="o.order_ids"/>
+                            <t t-set="pos_payments"
+                               t-value="orders.mapped('payment_ids')"/>
+                            <t t-foreach="pos_payments" t-as="pos_payment">
+                                <tr>
+                                    <td name="td_date" class="text-left">
+                                        <span t-field="pos_payment.pos_order_id.date_order"/>
+                                    </td>
+                                    <td name="td_o_order" class="text-left">
+                                        <span t-field="pos_payment.pos_order_id.name"/>
+                                    </td>
+                                    <td name="td_o_order_invoice" class="text-left">
+                                        <t t-if="pos_payment.pos_order_id.account_move">
+                                            <span t-field="pos_payment.pos_order_id.account_move.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="pos_payment.pos_order_id.name"/>
+                                        </t>
+                                    </td>
+                                    <td name="td_o_customer" class="text-left">
+                                        <t t-if="pos_payment.pos_order_id.partner_id">
+                                            <span t-field="pos_payment.pos_order_id.partner_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span>Unregistered Customer</span>
+                                        </t>
+                                    </td>
+                                    <td name="td_o_payment_method" class="text-left">
+                                        <t t-if="pos_payment.payment_method_id">
+                                            <span t-field="pos_payment.payment_method_id.name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span>-</span>
+                                        </t>
+                                    </td>
+                                    <td name="td_o_amount" class="text-right">
+                                        <span t-field="pos_payment.amount"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

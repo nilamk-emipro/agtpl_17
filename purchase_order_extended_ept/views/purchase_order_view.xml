@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="purchase_order_extended_view_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+                <field name="has_pre_export_vendor"/>
+                <field name="pre_export_vendor" attrs="{'invisible': [('has_pre_export_vendor', '=', False)]}"/>
+            </field>
+            <xpath expr="//tree/field[@name='price_unit']" position="after">
+                <field name="vendor_packing_instruction"/>
+                <field name="pre_export_vendor_unit_price"
+                       attrs="{'column_invisible': [('parent.has_pre_export_vendor', '=', False)]}"/>
+                <field name="pre_export_vendor_amount"
+                       attrs="{'column_invisible': [('parent.has_pre_export_vendor', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//group[@class='oe_subtotal_footer oe_right']" position="inside">
+                <label for="total_pre_export_vendor_amount"  class="oe_inline"
+                       attrs="{'invisible': [('has_pre_export_vendor', '=', False)]}"/>
+                <div class="o_row o_row_readonly" attrs="{'invisible': [('has_pre_export_vendor', '=', False)]}">
+                    <field name="total_pre_export_vendor_amount"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

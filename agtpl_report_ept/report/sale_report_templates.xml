@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        1. Inherit Report Template For Quotation / Order and PRO-FORMA Invoice
+        2. Replace Line Description With Product Name
+        Task: 187286
+    -->
+    <template id="report_saleorder_document_agtpl_report_ept"
+              inherit_id="sale.report_saleorder_document">
+        <xpath expr="//th[@name='th_description']" position="replace">
+            <th name="th_product" class="text-left">Product</th>
+        </xpath>
+        <xpath expr="//td[@name='td_name']" position="replace">
+            <td name="td_name">
+                <span t-esc="line.product_id.display_name"/>
+            </td>
+        </xpath>
+    </template>
+</odoo>

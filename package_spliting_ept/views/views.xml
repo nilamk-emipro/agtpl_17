@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+
+        <record id="package_spliting_main_screen" model="ir.actions.client">
+            <field name="name">Package Spliting</field>
+            <field name="tag">package_spliting_main_screen</field>
+            <field name="target">fullscreen</field>
+        </record>
+
+        <!--        <menuitem name="Package Spliting" id="package_spliting"-->
+        <!--                  action="package_spliting_main_screen"/>-->
+    </data>
+</odoo>

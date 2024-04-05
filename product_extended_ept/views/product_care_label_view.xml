@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--Form For Product Care Label-->
+    <record id="product_care_label_form_view" model="ir.ui.view">
+        <field name="name">product_extended_ept.product_care_label.form</field>
+        <field name="model">product.care.label</field>
+        <field name="arch" type="xml">
+            <form string="Product Care Label">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Title"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="label_image" widget="image"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_care_label_tree_view" model="ir.ui.view">
+        <field name="name">product_extended_ept.product_care_label.tree</field>
+        <field name="model">product.care.label</field>
+        <field name="arch" type="xml">
+            <tree string="Product Care Label">
+                <field name="label_image" widget="image"/>
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="product_care_label_act_window" model="ir.actions.act_window">
+        <field name="name">Product Care Label</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.care.label</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                There is no Care Label click here to add new Product Care Label.
+            </p>
+        </field>
+    </record>
+
+    <menuitem name="Product Care Label" id="product_care_label_menu"
+              parent="sale.prod_config_main" sequence="1000"
+              action="product_extended_ept.product_care_label_act_window"/>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="product_template_form_view_product_extended_ept" model="ir.ui.view">
+        <field name="name">product.template.product_extended_ept</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='variants']/field[@name='attribute_line_ids']"
+                   position="after">
+                <group>
+                    <group string="Product Features(Basics)">
+                        <field name="composition"/>
+                        <field name="gsm"/>
+                        <field name="moq"/>
+                        <field name="product_care_label_m2m_ids" widget="many2many_tags"/>
+                    </group>
+                    <group string="Product Features(Advanced)">
+                        <field name="warp"/>
+                        <field name="weft"/>
+                        <field name="epi"/>
+                        <field name="ppi"/>
+                    </group>
+                </group>
+            </xpath>
+            <xpath expr="//group[@name='group_standard_price']"
+                   position="after">
+                <group>
+                    <group name="fabric_feature" string="Fabric Feature">
+                        <field name="product_structure_id"/>
+                        <field name="product_fiber_domination_id"/>
+                        <field name="product_process_domination_id"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

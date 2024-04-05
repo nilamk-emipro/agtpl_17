@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_order_form_inherit_ext" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.ext</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_order']" position='after'>
+                <field name="with_effort"/>
+                <field name="salesman_id" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

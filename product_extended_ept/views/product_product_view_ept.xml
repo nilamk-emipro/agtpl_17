@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_normal_form_view_ept" model="ir.ui.view">
+        <field name="name">product.product.form.inherited.ept</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <field name="barcode" position="after">
+                <button name="generate_internal_reference" type="object" class="oe_inline oe_link"
+                        context="{'generate_sku': True}"
+                        help="Generate SKU and Barcode. **Barcode: Barcode will be generated only when the Fabric features are set.">
+                    <i class="fa fa-barcode"/>
+                    Generate SKU &amp; Barcode
+                </button>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve" t-esc="receipt">
+    <t t-name="OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+        <xpath expr="//t[@t-name='OrderReceipt']" position="inside">
+            <div class="pos-receipt">
+                <t t-if="!receipt.company.logo">
+                    <h2 class="pos-receipt-center-align">
+                        <t t-esc="receipt.company.name"/>
+                    </h2>
+                    <br/>
+                </t>
+                <div class="pos-receipt-contact">
+                    <t t-if="receipt.company.contact_address">
+                        <div style="text-transform: uppercase;font-weight: 900;"><t t-esc="receipt.company_title" /></div>
+                    </t>
+                    <t t-if="receipt.company.street">
+                        <div style="white-space:pre-line">
+                            <t t-esc="receipt.company_street"/>
+                            <t t-if="receipt.company_street2">
+                                <t t-esc="receipt.company_street2"/>
+                            </t>
+                            <br/>
+                            <t t-esc="receipt.company_city"/>,
+                            <t t-esc="receipt.company_zip"/>,
+                            <t t-esc="receipt.company_state_id"/>
+                        </div>
+                    </t>
+                    <t t-if="receipt.company.vat">
+                        <div><t t-esc="receipt.company.vat_label"/>:
+                            <t t-esc="receipt.company.vat"/></div>
+                    </t>
+                    <br/>
+                    <div style="text-decoration: underline;"><b>Tax Invoice</b></div>
+                    <br/>
+
+                    <t t-if="receipt.invoice_no">
+                        <span>------------------------------------------------------------------------</span>
+                        <div style="text-align: left;">Invoice No.: <t t-esc="receipt.invoice_no"/></div>
+                    </t>
+                    <t t-if="receipt.invoice_date">
+                        <div style="text-align: left;">Date: <t t-esc="receipt.invoice_date"/></div>
+                    </t>
+                    <div>------------------------------------------------------------------------</div>
+
+                    <t t-if="receipt.client.name">
+                        <div style="text-align: left;"> Customer : <t t-esc="receipt.client.name"/></div>
+                    </t>
+                    <t t-if="receipt.client.street">
+                        <div style="white-space:pre-line;text-align: left;">
+                            <span> Address : </span>
+                            <t t-esc="receipt.client.street"/>,
+                            <t t-esc="receipt.client.city"/>,
+                            <t t-esc="receipt.client.state_id[1]"/>,
+                            <t t-esc="receipt.client.zip"/>,
+                            <t t-esc="receipt.client.country_id[1]"/>
+                        </div>
+                    </t>
+                    <t t-if="receipt.client.vat">
+                        <div style="text-align: left;"> GSTIN : <t t-esc="receipt.client.vat"/></div>
+                    </t>
+                    <t t-if="receipt.client.l10n_in_gst_treatment">
+                        <div style="text-align: left;">GST Treatment : <t t-esc="receipt.client.l10n_in_gst_treatment"/></div>
+                    </t>
+                    <t t-if="receipt.client.state_id[1]">
+                        <div style="text-align: left;">Place of Supply and State Code : <t
+                                t-esc="receipt.client.state_id[1]"/></div>
+                    </t>
+                </div>
+                <br/>
+
+                <!-- Orderlines -->
+                <div class="orderlines">
+                    <div>------------------------------------------------------</div>
+                    <div>Item Name</div>
+                    <br/>
+                    <div> <span style="text-align: left">Quantity</span>
+                        <span style="margin-left: 64px">Rate</span>
+                        <span class="pos-receipt-right-align">Amount</span>
+                    </div>
+                    <div>------------------------------------------------------</div>
+                    <t t-call="OrderLinesReceipt"/>
+                </div>
+
+                <!-- Subtotal -->
+
+                <t t-if="!isTaxIncluded">
+                    <div>------------------------------------------------------</div>
+                    <div>Subtotal <span class="pos-receipt-right-align"><t t-esc="env.pos.format_currency(receipt.subtotal)"/>
+                        INR</span></div>
+                    <t t-foreach="receipt.tax_details" t-as="tax" t-key="tax.name">
+                        <div class="responsive-price">
+                            <t t-esc="tax.name"/>
+                            <span class="pos-receipt-right-align"><t t-esc="env.pos.format_currency_no_symbol(tax.amount)"/>
+                                INR</span>
+                        </div>
+                    </t>
+                    <div>------------------------------------------------------</div>
+                </t>
+
+                <!-- Total -->
+                <div> Total Amount <span class="pos-receipt-right-align"><t t-esc="env.pos.format_currency(receipt.total_with_tax)"/>
+                    INR</span></div>
+                <t t-if="receipt.total_rounded != receipt.total_with_tax">
+                    <div class="responsive-price">Cash Rounding <span class="pos-receipt-right-align"><t t-esc="env.pos.format_currency(receipt.rounding_applied)"/>
+                        INR</span></div>
+                </t>
+                <div>------------------------------------------------------</div>
+                <div class="responsive-price"> Amount Due: <span class="pos-receipt-right-align"><t t-esc="env.pos.format_currency(receipt.total_rounded)"/>
+                    INR</span></div>
+                <div>------------------------------------------------------</div>
+
+                <!-- Payment Lines -->
+                <t t-foreach="receipt.paymentlines" t-as="line" t-key="line.cid">
+                    <div class="responsive-price"> <t t-esc="line.name"/>
+                        <span style="margin-left: auto"><t t-esc="env.pos.format_currency_no_symbol(line.amount)"/></span>
+                    </div>
+                </t>
+                <div class="responsive-price"> CHANGE <span class="pos-receipt-right-align"><t t-esc="env.pos.format_currency(receipt.change)"/>
+                    INR</span></div>
+                <!-- Footer -->
+                <div>------------------------------------------------------</div>
+                <div t-if="receipt.footer_html">
+                    <t t-raw="receipt.footer_html"/>
+                </div>
+                <div t-if="!receipt.footer_html and receipt.footer">
+                    <t t-esc="receipt.footer"/>
+                    <br/>
+                    <br/>
+                </div>
+
+                <t t-if="receipt.AckNo">
+                    <div>------------------------------------------------------</div>
+                    <div>Ack. No.: <t t-esc="receipt.AckNo"/></div>
+                </t>
+                <t t-if="receipt.Irn">
+                    <div style="word-break: break-all;"> IRN No.: <t t-esc="receipt.Irn"/> </div>
+                </t>
+                <img t-if="receipt.qr_code" id="qrcode" t-att-src="receipt.qr_code" class="pos-receipt-logo"/>
+                <div>------------------------------------------------------</div>
+                <div><span style="margin-left: 100px;"> Thank You  </span></div>
+                <div>------------------------------------------------------</div>
+                <t t-if="receipt.session_id">
+                    <div> Sesssion ID :  <t t-esc="receipt.session_id"/></div>
+                </t>
+                <div>Order ID : <t t-esc="receipt.pos_order_id"/></div>
+                <t t-if="receipt.order_date">
+                    <div>Date Time : <t t-esc="receipt.order_date"/></div>
+                </t>
+                <t t-else="">
+                    <div>Date Time : <t t-esc="receipt.date.validation_date"/></div>
+                </t>
+                <t t-if="receipt.cashier">
+                    <div> Created by :  <t t-esc="receipt.cashier"/></div>
+                </t>
+            </div>
+        </xpath>
+    </t>
+</templates>

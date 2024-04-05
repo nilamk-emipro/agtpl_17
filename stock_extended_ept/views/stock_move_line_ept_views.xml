@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--stock.move.line.operations.tree inherited-->
+    <record id="view_stock_move_line_operation_tree_ept" model="ir.ui.view">
+        <field name="name">stock.move.line.operations.tree.ept</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree"/>
+        <field name="arch" type="xml">
+            <field name="qty_done" position="before">
+                <field name="expected_qty"
+                       invisible="not context.get('show_expected_qty')"/>
+            </field>
+        </field>
+    </record>
+</odoo>

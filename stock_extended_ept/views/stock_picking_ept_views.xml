@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--stock.picking inherited-->
+    <record id="view_picking_form_ept" model="ir.ui.view">
+        <field name="name">stock.picking.form.ept</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <button name="action_toggle_is_locked" position="after">
+                <field name="import_asn_flag" invisible="1"/>
+                <button type="object" name="button_reset_asn" string="Reset ASN" class="btn btn-success"
+                        help="Reset Advance Shipping Note lines."
+                        attrs="{'invisible': ['|','|',('state', 'not in', ('waiting', 'confirmed', 'assigned')),('picking_type_code', 'not in', ('incoming')),('import_asn_flag', '=', False)]}"/>
+            </button>
+        </field>
+    </record>
+</odoo>

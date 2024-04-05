@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--
+        1. Report Action for Session Payment Report.
+        2. Report Template For Session Payment Report
+        Task: 187286
+    -->
+    <!--
+        1. Session Statement Information In Session Payment Report.
+        Task: 187718
+    -->
+    <record id="action_report_pos_payment_ept" model="ir.actions.report">
+        <field name="name">Session Payment Report</field>
+        <field name="model">pos.session</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">agtpl_report_ept.pos_session_payment_report_ept</field>
+        <field name="report_file">agtpl_report_ept.pos_session_payment_report_ept</field>
+        <field name="print_report_name">(object._get_report_base_filename())</field>
+        <field name="binding_model_id" ref="point_of_sale.model_pos_session"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="pos_session_payment_report_ept">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="agtpl_report_ept.pos_session_payment_report_document_ept"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="pos_session_payment_report_document_ept">
+        <t t-call="web.internal_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+                <div class="mb16" id="session_payment_information">
+                    <div class="pull-left col-6" name="pos_session">
+                        <h4 class="mt16">
+                            <strong>Session:</strong>
+                            <span t-field="o.name"/>
+                        </h4>
+                        <h5>
+                            <strong>Opening Date:</strong>
+                            <span t-field="o.start_at"/>
+                        </h5>
+                        <h5>
+                            <strong>Closing Date:</strong>
+                            <span t-field="o.stop_at"/>
+                        </h5>
+                    </div>
+                    <div name="pos_payment" class="pull-right col-6">
+                        <div>
+                            <h4>Payments</h4>
+                        </div>
+                        <t t-set="datas" t-value="o.payment_method_groups()"/>
+                        <table class="table table-sm o_main_table" id="payment_methods"
+                               style="width: 100%">
+                            <thead>
+                                <tr style="background-color:#b3b3b3; color:black;">
+                                    <th name="th_method" class="text-left">Method</th>
+                                    <th name="th_amount" class="text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody class="invoice_tbody">
+                                <t t-foreach="datas" t-as="data">
+                                    <tr>
+                                        <td id="td_payment_method">
+                                            <span t-esc="data.get('payment_method_id')[1]"/>
+                                        </td>
+                                        <td class="is-subtotal text-right">
+                                            <span t-esc="data.get('amount')"
+                                                  t-options="{'widget': 'monetary',
+                                                  'display_currency': res_company.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <table class="table table-condensed" style="width: 100%">
+                            <tr class="border-black"
+                                style="background-color:#b3b3b3; color:black; font-size:18px">
+                                <t t-set="total_list"
+                                   t-value="[i.get('amount') for i in datas]"/>
+                                <td class="text-left">
+                                    <strong>Total</strong>
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="float(sum(total_list))"
+                                          t-options="{'widget': 'monetary',
+                                          'display_currency': res_company.currency_id}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div name="statement">
+                    <t t-foreach="o.statement_ids.filtered(lambda x: x.journal_type== 'cash')"
+                       t-as="statement">
+                        <div class="border border-top-0 border-right-0 border-left-0 border-info"
+                             name="statement_name">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="text-left w-100">
+                                        <strong>
+                                            <span t-if="statement.journal_id.type == 'bank'">
+                                                Bank Statement
+                                            </span>
+                                            <span t-else="">Cash Statement</span>
+                                        </strong>
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-2 pb-2">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h5>
+                                        <strong>
+                                            <span t-field="statement.journal_id"/>
+                                            <t t-if="statement.journal_id.bank_account_id">-
+                                                <span t-field="statement.journal_id.bank_account_id"/>
+                                            </t>
+                                            <t t-if="statement.journal_id.code">-
+                                                <span t-field="statement.journal_id.code"/>
+                                            </t>
+                                        </strong>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-lg m-0 table-borderless border border-right-0 border-left-0 border-info">
+                            <tbody>
+                                <tr>
+                                    <td class="pt-2 pb-2 pl-0 pr-0">
+                                        <table class="table table-borderless m-0">
+                                            <tr>
+                                                <td class="p-0 w-25">
+                                                    <strong>Starting Balance</strong>
+                                                </td>
+                                                <td class="p-0">
+                                                    <strong>
+                                                        <span t-esc="statement.line_ids and statement.line_ids.sorted(lambda line: line.date)[0].date"
+                                                              t-options='{"widget": "date"}'/>
+                                                    </strong>
+                                                </td>
+                                                <td class="text-right p-0">
+                                                    <strong>
+                                                        <span t-field="statement.balance_start"/>
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-borderless m-0">
+                            <tbody>
+                                <tr t-foreach="statement.line_ids" t-as="line" class="pb-2">
+                                    <td class="pl-0 pr-0">
+                                        <table class="table table-borderless">
+                                            <tr>
+                                                <td class="p-0 w-25">
+                                                    <span class="d-block font-weight-bold"
+                                                          t-field="line.date"/>
+                                                </td>
+                                                <td class="p-0">
+                                                    <span class="d-block font-weight-bold"
+                                                          t-if="line.partner_id"
+                                                          t-field="line.partner_id"/>
+                                                    <span class="d-block"
+                                                          t-if="line.partner_bank_id"
+                                                          t-field="line.partner_bank_id"/>
+                                                    <span class="d-block"
+                                                          t-if="line.payment_ref"
+                                                          t-field="line.payment_ref"/>
+                                                    <span class="d-block"
+                                                          t-if=" not is_html_empty(line.narration)"
+                                                          t-field="line.narration"/>
+                                                </td>
+                                                <td class="text-right p-0">
+                                                    <span class="d-block font-weight-bold"
+                                                          t-field="line.amount"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-lg mt-0 table-borderless border border-right-0 border-left-0 border-info">
+                            <tbody>
+                                <tr>
+                                    <td class="pt-2 pb-2 pl-0 pr-0">
+                                        <table class="table table-borderless m-0">
+                                            <tr>
+                                                <td class="p-0 w-25">
+                                                    <strong>Ending Balance</strong>
+                                                </td>
+                                                <td class="p-0">
+                                                    <strong>
+                                                        <span t-esc="statement.line_ids and statement.line_ids.sorted(lambda line: line.date)[-1].date"
+                                                              t-options='{"widget": "date"}'/>
+                                                    </strong>
+                                                </td>
+                                                <td class="text-right p-0">
+                                                    <strong>
+                                                        <span t-field="statement.balance_end_real"/>
+                                                    </strong>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

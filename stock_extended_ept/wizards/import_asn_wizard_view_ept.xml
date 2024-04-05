@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Form view for the import ASN-->
+    <record id="import_asn_wizard_ept" model="ir.ui.view">
+        <field name="name">Import Advance Shipping Note</field>
+        <field name="model">import.asn.ept</field>
+        <field name="arch" type="xml">
+            <form string="Import Advance Shipping Note">
+                <group>
+                    <field name="import_document" filename="document_name" required="True"/>
+                    <field name="document_name" invisible="1"/>
+                    <field name="picking_id" invisible="1"/>
+                </group>
+                <group>
+                    <div style="color:#000000" id="import_asn_note">
+                        <p class="alert alert-warning" role="alert">
+                            <u>
+                                <h3 style="font-weight:bold;color:#7d5a29">Note :</h3>
+                            </u>
+                            <b>
+                                <ol>
+                                    <li>
+                                        Column name should be : <br/>
+                                        internal_default_code,<br/> vendor_default_code,<br/>
+                                        package,<br/> expected_qty,<br/> po_number,<br/>uom
+                                    </li>
+                                    <li>
+                                        The "po_number" field must not be blank.
+                                    </li>
+                                    <li>
+                                        Either internal_default_code or vendor_default_code is must required, If both
+                                        are blank then file will not be processed.
+                                    </li>
+                                    <li>
+                                        "expected qty" field is mandatory to set in the ASN file.
+                                    </li>
+                                </ol>
+                            </b>
+                        </p>
+                    </div>
+                </group>
+                <footer>
+                    <button string="Add ASN" name="add_asn_lines" class="btn-primary" type="object"
+                            help="Add Advance Shipping Note from the file"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <!--Action for the import ASN-->
+    <record id="action_import_asn_wizard" model="ir.actions.act_window">
+        <field name="name">Import Advance Shipping Note</field>
+        <field name="res_model">import.asn.ept</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="stock_extended_ept.import_asn_wizard_ept"/>
+        <field name="target">new</field>
+    </record>
+    <!--Menu for the import ASN-->
+    <menuitem
+            id="menu_stock_import_asn"
+            name="Import ASN"
+            parent="stock.menu_stock_warehouse_mgmt"
+            action="stock_extended_ept.action_import_asn_wizard"
+            sequence="136"/>
+</odoo>

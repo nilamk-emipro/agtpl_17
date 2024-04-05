@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <!--
+        Inherited 'Contacts' menu and changed the groups from
+        [base.group_user,base.group_partner_manager] to [base.group_system]
+	-->
+
+    <record id="contacts.menu_contacts" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6,0,[ref('base.group_system')])]"/>
+    </record>
+
+    <record id="res_partner_property_form_extended_view" model="ir.ui.view">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="priority">2</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='banks']" position="attributes">
+                <attribute name="groups">partner_extended_ept.visible_bank_detail_manager_group</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

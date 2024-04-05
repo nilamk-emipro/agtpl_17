@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_structure_ept_user,product.structure.ept,model_product_structure_ept,base.group_user,1,0,0,0
+access_product_process_domination_ept_user,product.process.domination.ept,model_product_process_domination_ept,base.group_user,1,0,0,0
+access_product_structure_ept_manager,product.structure.ept,model_product_structure_ept,base.group_system,1,1,1,1
+access_product_process_domination_ept_manager,product.process.domination.ept,model_product_process_domination_ept,base.group_system,1,1,1,1
+access_product_fiber_domination_ept_manager,product.fiber.domination.ept,model_product_fiber_domination_ept,base.group_system,1,1,1,1
+access_product_care_label_user,product.care.label,model_product_care_label,base.group_user,1,1,1,1

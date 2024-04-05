@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <record id="view_gross_profit_report_ept_wizard" model="ir.ui.view">
+        <field name="name">gross.profit.report.ept.wiz.form</field>
+        <field name="model">gross.profit.report.ept.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Gross Profit Report Wizard">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="from_date"/>
+                        </group>
+                        <group>
+                            <field name="to_date"/>
+
+                        </group>
+                    </group>
+
+                </sheet>
+                <footer>
+                    <button name="generate_gross_profit_report" type="object" string="Generate Report"
+                            class="oe_highlight"/>
+                    or
+                    <button name="cancel" string="Cancel" special="cancel" class="oe_link"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_gross_profit_report_ept_wizard" model="ir.actions.act_window">
+        <field name="name">Gross Profit Report Wizard</field>
+        <field name="res_model">gross.profit.report.ept.wiz</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_gross_profit_report_ept_wizard"/>
+    </record>
+
+    <menuitem id="gross_profit_report_ept_menu"
+              name="Gross profit Report"
+              sequence="50"
+              parent="sale.menu_sale_report"
+              action="action_gross_profit_report_ept_wizard"
+    />
+
+    <!--Pivot Report View-->
+    <record id="gross_profit_pivot_report" model="ir.ui.view">
+        <field name="name">gross.profit.report.ept.pivot</field>
+        <field name="model">gross.profit.report.ept</field>
+        <field name="arch" type="xml">
+            <pivot string="Gross Profit Analysis" disable_linking="1" sample="1">
+                <field name="product_id" type="row"/>
+                <field name="actual_revenue" type="measure"/>
+                <field name="total_revenue" type="measure"/>
+                <field name="actual_variable_cost" type="measure"/>
+                <field name="total_variable_cost" type="measure"/>
+                <field name="gross_profit" type="measure"/>
+                <field name="total_gross_profit" type="measure"/>
+                <field name="total_per_of_gross_profit" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_gross_profit_report_ept_pivot" model="ir.actions.act_window">
+        <field name="name">Gross Profit Report Analysis</field>
+        <field name="res_model">gross.profit.report.ept</field>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="gross_profit_pivot_report"/>
+    </record>
+</odoo>

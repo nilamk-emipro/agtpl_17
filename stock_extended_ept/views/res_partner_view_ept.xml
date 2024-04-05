@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="res_partner_view_form_inherited_ept" model="ir.ui.view">
+            <field name="name">res.partner.form.inherit.ept</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="after">
+                    <field name="name_short_code" invisible="context.get('res_partner_search_mode') == 'customer'"
+                           readonly="context.get('res_partner_search_mode') == 'supplier'"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="customer_history_report_ept" model="ir.ui.view">
+            <field name="name">res.partner.form.ept</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Customer History Report" create="0" edit="0" delete="0">
+                    <field name="name"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="first_order_date"/>
+                    <field name="last_order_date"/>
+                    <field name="total_sales"/>
+                    <field name="average_order_per_month"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="customer_history_report_action_ept" model="ir.actions.act_window">
+            <field name="name">Customer History Report</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="customer_history_report_ept"/>
+        </record>
+
+        <menuitem id="customer_history_report" name="Customer History Report" sequence="3"
+                  action="customer_history_report_action_ept" parent="sale.menu_sale_report"/>
+    </data>
+</odoo>

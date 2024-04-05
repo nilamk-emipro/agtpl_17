@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_gross_profit_report_ept,access_gross_profit_report_ept,model_gross_profit_report_ept,,1,1,1,1
+access_gross_profit_report_ept_wiz,access_gross_profit_report_ept_wiz,model_gross_profit_report_ept_wiz,,1,1,1,1
