@@ -4,7 +4,7 @@
     # App information
 
     'name': "AGTPL Report Ept",
-    'version': '15.0',
+    'version': '0.1',
     'summary': 'AGTPL Report Ept',
     'category': 'Other',
     'sequence': 0,
@@ -18,7 +18,7 @@
         'security/ir.model.access.csv',
         'report/pos_session_payment.xml',
         'report/pos_session_sale_report.xml',
-        'report/invoice_report.xml',
+        # 'report/invoice_report.xml',
         'report/sale_report_templates.xml',
         'report/delivery_package_report.xml',
         'wizard/gross_profit_report_ept_wiz_view.xml'

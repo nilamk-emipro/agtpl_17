@@ -4,7 +4,7 @@
     # App information
 
     'name': "Stock Extended Ept",
-    'version': '15.0.0.0',
+    'version': '0.1',
     'summary': 'Stock Extended Ept',
     'category': 'Other',
     'sequence': 0,

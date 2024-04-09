@@ -4,7 +4,7 @@
     # App information
 
     'name': "Product Extended Ept",
-    'version': '15.0',
+    'version': '0.1',
     'summary': 'Product Extended Ept',
     'category': 'Other',
     'sequence': 0,

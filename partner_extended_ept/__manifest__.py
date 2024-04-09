@@ -4,7 +4,7 @@
     # App information
 
     'name': "Partner Extended Ept",
-    'version': '15.0',
+    'version': '0.1',
     'summary': 'Partner Extended Ept',
     'license': 'OPL-1',
     'category': 'Other',

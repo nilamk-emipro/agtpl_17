@@ -32,8 +32,8 @@
         <t t-call="web.internal_layout">
             <div class="page">
                 <div class="oe_structure"/>
-                <div class="mb16" id="session_payment_information">
-                    <div class="pull-left col-6" name="pos_session">
+                <div class="row" id="session_payment_information">
+                    <div class="col-6" name="pos_session">
                         <h4 class="mt16">
                             <strong>Session:</strong>
                             <span t-field="o.name"/>
@@ -47,7 +47,7 @@
                             <span t-field="o.stop_at"/>
                         </h5>
                     </div>
-                    <div name="pos_payment" class="pull-right col-6">
+                    <div class="col-6" name="pos_payment">
                         <div>
                             <h4>Payments</h4>
                         </div>
@@ -93,9 +93,9 @@
                     </div>
                 </div>
                 <div name="statement">
-                    <t t-foreach="o.statement_ids.filtered(lambda x: x.journal_type== 'cash')"
+                    <t t-foreach="o.statement_line_ids.filtered(lambda x: x.journal_id.type== 'cash')"
                        t-as="statement">
-                        <div class="border border-top-0 border-right-0 border-left-0 border-info"
+                        <div class="border border-top-0 border-end-0 border-start-0 border-info"
                              name="statement_name">
                             <div class="row">
                                 <div class="col-12">
@@ -140,13 +140,13 @@
                                                 </td>
                                                 <td class="p-0">
                                                     <strong>
-                                                        <span t-esc="statement.line_ids and statement.line_ids.sorted(lambda line: line.date)[0].date"
+                                                        <span t-esc="statement and statement.sorted(lambda line: line.date)[0].date"
                                                               t-options='{"widget": "date"}'/>
                                                     </strong>
                                                 </td>
                                                 <td class="text-right p-0">
                                                     <strong>
-                                                        <span t-field="statement.balance_start"/>
+                                                        <span t-field="statement.running_balance"/>
                                                     </strong>
                                                 </td>
                                             </tr>
@@ -157,7 +157,7 @@
                         </table>
                         <table class="table table-borderless m-0">
                             <tbody>
-                                <tr t-foreach="statement.line_ids" t-as="line" class="pb-2">
+                                <tr t-foreach="statement" t-as="line" class="pb-2">
                                     <td class="pl-0 pr-0">
                                         <table class="table table-borderless">
                                             <tr>
@@ -200,13 +200,13 @@
                                                 </td>
                                                 <td class="p-0">
                                                     <strong>
-                                                        <span t-esc="statement.line_ids and statement.line_ids.sorted(lambda line: line.date)[-1].date"
+                                                        <span t-esc="statement and statement.sorted(lambda line: line.date)[-1].date"
                                                               t-options='{"widget": "date"}'/>
                                                     </strong>
                                                 </td>
                                                 <td class="text-right p-0">
                                                     <strong>
-                                                        <span t-field="statement.balance_end_real"/>
+                                                        <span t-field="statement.statement_balance_end_real"/>
                                                     </strong>
                                                 </td>
                                             </tr>

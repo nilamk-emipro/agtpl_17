@@ -1,6 +1,6 @@
 {
     'name': 'POS Extended',
-    'version': '15.0.1.1',
+    'version': '0.1',
     'license': 'OPL-1',
     'category': 'Sales/Point of Sale',
     'summary': '',

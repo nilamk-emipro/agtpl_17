@@ -1,4 +1,4 @@
-odoo.define('package_spliting_ept.MainMenu', function (require) {
+odoo.define('package_spliting_ept.MainMenu',[], function (require) {
     "use strict";
     const mobile = require('web_mobile.core');
     var ajax = require('web.ajax');
