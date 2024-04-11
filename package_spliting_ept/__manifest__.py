@@ -20,23 +20,27 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['stock_barcode', 'point_of_sale'],
+    'depends': ['stock_barcode', 'point_of_sale','stock_delivery'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        # 'views/res_groups.xml',
+        # 'views/stock_quant_views.xml',
         'views/views.xml',
+        # 'views/view_stock_location.xml',
+        # 'views/templates.xml',
+        # 'reports/package_spliting_barcode_report.xml',
+        # 'views/weighted_barcode_view.xml',
     ],
+    # 'qweb': [
+    #     "static/src/xml/barcode_scan_templates.xml",
+    # ],
     'assets': {
         'web.assets_backend': [
             'package_spliting_ept/static/src/**/*.js',
             # 'package_spliting_ept/static/src/**/*.scss',
             'package_spliting_ept/static/src/**/*.xml',
         ],
-        # 'point_of_sale.assets': ['/package_spliting_ept/static/src/js/barcode_reader.js'],
-        # 'web.assets_qweb': [
-        #     # 'package_spliting_ept/static/src/xml/barcode_scan_templates.xml',
-        #     'package_spliting_ept/static/src/xml/add_button_menu.xml'
-        # ]
     },
 }

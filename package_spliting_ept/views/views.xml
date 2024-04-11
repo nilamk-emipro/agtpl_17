@@ -1,17 +1,13 @@
 <odoo>
     <data>
-        <record id="package_splitting_main_screen" model="ir.actions.client">
-            <field name="name">Package Splitting</field>
-            <field name="tag">package_splitting_main_screen</field>
+
+        <record id="package_spliting_main_screen" model="ir.actions.client">
+            <field name="name">Package Spliting</field>
+            <field name="tag">package_spliting_main_screen</field>
             <field name="target">fullscreen</field>
         </record>
 
-        <record id="package_splitting_barcode_action_main_menu" model="ir.actions.client">
-            <field name="name">Barcode</field>
-            <field name="tag">package_splitting_barcode</field>
-            <field name="target">fullscreen</field>
-        </record>
-
-
+        <!--        <menuitem name="Package Spliting" id="package_spliting"-->
+        <!--                  action="package_spliting_main_screen"/>-->
     </data>
 </odoo>

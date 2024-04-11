@@ -1,1 +1,3 @@
-from . import package_barcode
+# -*- coding: utf-8 -*-
+
+from . import main

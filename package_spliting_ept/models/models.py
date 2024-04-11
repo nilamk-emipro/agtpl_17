@@ -69,7 +69,7 @@ class PackageSplitingEpt(models.Model):
             'picking_type_id': package.location_id.warehouse_id.int_type_id.id,
             'location_id': package.location_id.id,
             'location_dest_id': package.location_id.id,
-            'move_lines': [(0, 0, {
+            'move_ids': [(0, 0, {
                 'name': _('Auto processed move : %s') % product_id.display_name,
                 'product_id': product_id.id if product else False,
                 'product_uom': product_uom.id if product_uom else False,
@@ -79,7 +79,7 @@ class PackageSplitingEpt(models.Model):
                 'state': 'confirmed',
             })],
         })
-        stock_move = picking.move_lines
+        stock_move = picking.move_ids
         # stock_move._action_assign()
         stock_move._set_quantity_done(float(quantity_to_cut))
         stock_move.move_line_ids.write({'package_id': package.id})
