@@ -46,8 +46,7 @@ class MainScreen extends Component {
     async _onScannedBarcode(barcode) {
             var self = this;
             const result = await this.rpc('/package_spliting_ept/get_barcode_data',{ model: 'package.spliting.barcode',barcode: barcode});
-            console.log('Barcode Data=========================',result)
-            if (result){
+            if (!result.error){
                 self.db = result.database
                 var html = "<h3>Package Information</h3><hr/>" +
                     "<form id='package_details' method='post' action='cut_and_generate'>" +
@@ -105,7 +104,7 @@ class MainScreen extends Component {
             form_data[this.name] = this.value;
         });
         const result = await this.rpc('/package_spliting_ept/create_picking',{ model: 'package.spliting.barcode',form_data: form_data});
-        if (result) {
+        if (!result.error) {
                 var html = "<h3 style='display: inline-block;'>Barcode</h3>" +
 //                    "<a href='javascript:void(0)' class='pull-right btn btn-link o_generate_pdf' target='_self' t-on-click='_generatePDF'>" + //style='cursor: pointer'
 //                    "<i class='fa fa-download mr-1' role='img'/>" +
@@ -135,7 +134,6 @@ class MainScreen extends Component {
 
     _generatePDF(){
         var barcode_id = parseInt($("input[name='barcode_id']").val())
-        console.log("Barcode Id==============================",barcode_id)
         this.action.doAction({
               type: 'ir.actions.report',
               report_type: 'qweb-pdf',
