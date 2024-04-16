@@ -38,10 +38,9 @@
     # ],
     'assets': {
         'web.assets_backend': [
-            'package_spliting_ept/static/src/js/add_button_menu.js',
+            'package_spliting_ept/static/src/**/*.js',
             # 'package_spliting_ept/static/src/**/*.scss',
-            'package_spliting_ept/static/src/xml/barcode_scan_templates.xml',
-            'package_spliting_ept/static/src/xml/add_button_menu.xml'
+            'package_spliting_ept/static/src/**/*.xml',
         ],
     },
 }
