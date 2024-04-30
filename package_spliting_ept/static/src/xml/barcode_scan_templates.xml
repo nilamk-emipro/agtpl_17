@@ -34,11 +34,13 @@
             <div id="barcode_info" style="width:70%;margin-top:25px"></div>
             <div class="col-4 o_generate_picking" style="margin-left: 467px;display:none;">
                 <button class="btn btn-primary text-uppercase " t-on-click="_onClickGeneratePicking">
-                    <i class='fa fa-cut mr-1'/> Split Package
+                    <i class='fa fa-cut mr-1'/>
+                    Split Package
                 </button>
             </div>
-            <div class="col-4 o_generate_pdf" style="display:none;">
-                <a href='javascript:void(0)' class='pull-right btn btn-link o_generate_pdf' target='_self' t-on-click='_generatePDF'>
+            <div class="o_generate_pdf" style="display:none;">
+                <a href='javascript:void(0)' class='pull-right btn btn-link o_generate_pdf' target='_self'
+                   t-on-click='_generatePDF'>
                     <i class='fa fa-download mr-1' role='img'/>
                 </a>
             </div>

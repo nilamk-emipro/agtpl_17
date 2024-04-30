@@ -10,7 +10,7 @@ import { serializeDate, today } from "@web/core/l10n/dates";
 import { Component, onWillStart, useState } from "@odoo/owl";
 import { scanBarcode, BarcodeDialog } from "@web/webclient/barcode/barcode_scanner";
 
-debugger;
+
 class MainScreen extends Component {
 	setup() {
 	    this.rpc = useService('rpc');
@@ -112,7 +112,7 @@ class MainScreen extends Component {
                     "<form id='barcode_details'>" +
                     "<div class='row'>" +
                     "<div class='col-lg-12' style='position:relative; display:inline-block'>" +
-                    "<img src='/report/barcode?type=Code128&humanreadable=1&value=" + result.barcode + "' style='display: block; width:100%; margin-left:-36px' class='image-responsive'/>" +
+                    "<img src='/report/barcode?barcode_type=Code128&humanreadable=1&value=" + result.barcode + "' style='display: block; width:100%; margin-left:-36px' class='image-responsive'/>" +
                     "<input type='hidden' name='barcode' value='" + result.barcode + "'/> " +
                     "<input type='hidden' name='barcode_id' value='" + result.barcode_id + "'/> " +
                     "</div>" +

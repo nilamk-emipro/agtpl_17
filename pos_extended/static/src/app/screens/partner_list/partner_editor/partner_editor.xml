@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_extended.PartnerDetailsEditExtended" t-inherit="point_of_sale.PartnerDetailsEdit"
+       t-inherit-mode="extension">
+        <xpath expr="//div/div[2]" position="inside">
+            <div class="partner-detail col">
+                <label class="form-label label" for="company_type">Company Type</label>
+                <div class="detail form-control">
+                    <label class="radio-inline">
+                        <input type="radio" name="company_type" t-model="changes.company_type"
+                               value="person"
+                               title="Individual"/>
+                        Individual
+                    </label>
+                    <label class="radio-inline ms-2">
+                        <input type="radio" name="company_type" t-model="changes.company_type"
+                               value="company"
+                               title="Company"/>
+                        Company
+                    </label>
+                </div>
+            </div>
+            <div class="partner-detail col">
+                <label class="form-label label" for="l10n_in_gst_treatment">GST Treatment</label>
+                <select class="detail form-select" id="l10n_in_gst_treatment" name="l10n_in_gst_treatment" t-model="changes.l10n_in_gst_treatment"
+                        t-att-class="{'border-danger': missingFields.includes('l10n_in_gst_treatment')}">
+                    <option value="regular">Registered Business - Regular</option>
+                    <option value="composition">Registered Business - Composition</option>
+                    <option value="unregistered">Unregistered Business</option>
+                    <option value="consumer">Consumer</option>
+                    <option value="overseas">Overseas</option>
+                    <option value="special_economic_zone">Special Economic Zone</option>
+                    <option value="deemed_export">Deemed Export</option>
+                    <option value="uin_holders">UIN Holders</option>
+                </select>
+            </div>
+            <div class="partner-detail col">
+                <label class="form-label label" for="title">Title</label>
+                <select class="detail form-select" id="title" name="title" t-model="changes.title"
+                        t-att-class="{'border-danger': missingFields.includes('title')}">
+                    <option value="1">Madam</option>
+                    <option value="2">Miss</option>
+                    <option value="3">Mister</option>
+                    <option value="4">Doctor</option>
+                    <option value="5">Professor</option>
+                </select>
+            </div>
+        </xpath>
+    </t>
+</templates>

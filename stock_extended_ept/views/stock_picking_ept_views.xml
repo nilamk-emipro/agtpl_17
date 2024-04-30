@@ -6,12 +6,12 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
-            <button name="action_toggle_is_locked" position="after">
+            <field name="state" position="before">
                 <field name="import_asn_flag" invisible="1"/>
                 <button type="object" name="button_reset_asn" string="Reset ASN" class="btn btn-success"
                         help="Reset Advance Shipping Note lines."
-                        attrs="{'invisible': ['|','|',('state', 'not in', ('waiting', 'confirmed', 'assigned')),('picking_type_code', 'not in', ('incoming')),('import_asn_flag', '=', False)]}"/>
-            </button>
+                        invisible="state not in ['waiting', 'confirmed', 'assigned'] or picking_type_code not in ['incoming'] or not import_asn_flag"/>
+            </field>
         </field>
     </record>
 </odoo>

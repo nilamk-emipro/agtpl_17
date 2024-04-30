@@ -5,7 +5,7 @@
         <field name="model">product.product</field>
         <field name="inherit_id" ref="product.product_normal_form_view"/>
         <field name="arch" type="xml">
-            <field name="barcode" position="after">
+            <field name="categ_id" position="before">
                 <button name="generate_internal_reference" type="object" class="oe_inline oe_link"
                         context="{'generate_sku': True}"
                         help="Generate SKU and Barcode. **Barcode: Barcode will be generated only when the Fabric features are set.">

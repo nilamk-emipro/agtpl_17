@@ -5,19 +5,19 @@
         <field name="model">pos.config</field>
         <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@id='company']" position="after">
-                <div>
-                     <label class="font-weight-normal" for="store_short_code"
-                           string="Add Store Shortcode"/>
-                    <field name="store_short_code" class="oe_inline"/>
+            <xpath expr="//div[@id='title']" position="after">
+                <div class="row">
+                    <div class="col-4">
+                        <label class="font-weight-normal" for="store_short_code"
+                               string="Add Store Shortcode"/>
+                        <field name="store_short_code" class="oe_inline"/>
+                    </div>
+                    <div class="col-4">
+                        <label class="font-weight-normal" for="pos_sequence_id"
+                               string="Sequence"/>
+                        <field name="pos_sequence_id" class="oe_inline"/>
+                    </div>
                 </div>
-                <div>
-                     <label class="font-weight-normal" for="pos_sequence_id"
-                           string="Sequence"/>
-                    <field name="pos_sequence_id" class="oe_inline"/>
-                </div>
-            </xpath>
-            <xpath expr="//h2[@name='order']" position="before">
                 <div class="row mt16 o_settings_container">
                     <div class="col-12 col-lg-6 o_setting_box"
                          title="Select Salesman efforts for Pos session level">
@@ -29,12 +29,9 @@
                             <div class="text-muted">
                                 Use Salesman with/without efforts to the PoS session
                             </div>
-                            <div class="content-group" attrs="{'invisible': [('auth_salesman_selection', '=', False)]}">
-                                <div class="mt8">
-                                    <field name="authorized_salesman_ids" widget="many2many_tags"
-                                           options="{'no_create': True}"
-                                           domain="['|',('company_id', '=', company_id),('company_id', '=', False)]"/>
-                                </div>
+                            <div class="content-group" invisible="not auth_salesman_selection">
+                                <field name="authorized_salesman_ids" widget="many2many_tags"
+                                       options="{'no_create': True}"/>
                             </div>
                         </div>
                     </div>

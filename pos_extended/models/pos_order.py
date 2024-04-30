@@ -14,11 +14,13 @@ class PosOrders(models.Model):
         config_id = order_fields['session_id'] and self.env['pos.session'].browse(
             order_fields['session_id']).config_id or self.env['pos.config']
         if not order_fields.get('fiscal_position_id', False) and config_id.fiscal_position_ids:
+            partner_id = self.env['res.partner'].browse(order_fields['partner_id'])
             fpos_ids = self.env['account.fiscal.position'].sudo().with_company(order_fields['company_id']).with_context(
-                company_id=order_fields['company_id'], fpos=config_id.fiscal_position_ids).get_fiscal_position(
-                order_fields['partner_id'])
+                company_id=order_fields['company_id'], fpos=config_id.fiscal_position_ids)._get_fiscal_position(
+                partner_id)
             order_fields['fiscal_position_id'] = fpos_ids.id
-        if not order_fields.get('with_effort', False) and not order_fields.get('salesman_id', False) and config_id.authorized_salesman_ids:
+        if not order_fields.get('with_effort', False) and not order_fields.get('salesman_id',
+                                                                               False) and config_id.authorized_salesman_ids:
             order_fields['with_effort'] = ui_order.get('with_effort')
             order_fields['salesman_id'] = ui_order.get('salesman_id')
         return order_fields
@@ -63,15 +65,15 @@ class PosOrders(models.Model):
         return data
 
     @api.model
-    def set_partner_warning(self, partner_data, screen):
+    def set_partner_warning(self, partner_data, is_product_screen):
         partner_id = self.env['res.partner'].browse(partner_data.get('id'))
         if not partner_id:
             return
         if partner_id and not partner_id.sale_warn or not partner_id.invoice_warn:
             return
         partner = partner_id
-        partner_warn = partner.sale_warn if screen.get('product-screen') else partner.invoice_warn
-        partner_warn_message = partner.sale_warn_msg if screen.get('product-screen') else partner.invoice_warn_msg
+        partner_warn = partner.sale_warn if is_product_screen == 1 else partner.invoice_warn
+        partner_warn_message = partner.sale_warn_msg if is_product_screen == 1 else partner.invoice_warn_msg
 
         # If partner has no warning, check its company
         if partner_warn == 'no-message' and partner.parent_id:

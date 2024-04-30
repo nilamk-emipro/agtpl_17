@@ -187,8 +187,6 @@ class ImportAsnEpt(models.TransientModel):
             po_number = row.get('po_number', '')
             internal_default_code = row.get('internal_default_code', '')
             vendor_default_code = row.get('vendor_default_code', '')
-            # internal_lot = row.get('internal_lot', '')
-            # vendor_lot = row.get('vendor_lot', '')
             expected_qty = row.get('expected_qty', '')
             uom = row.get('uom', '')
         except Exception as e:
@@ -214,9 +212,6 @@ class ImportAsnEpt(models.TransientModel):
             raise ValidationError(_(error_msg + 'Please provide the `Product Code` '
                                                 'or `Vendor Product '
                                                 'Code` in file\n ' + line))
-        # if not (internal_lot or vendor_lot):
-        #     raise ValidationError(_(error_msg + 'Please provide `Vendor Lot` '
-        #                                         'or `Internal Lot` in file\n' + line))
         try:
             expected_qty = float(expected_qty)
         except Exception as e:
@@ -317,13 +312,10 @@ class ImportAsnEpt(models.TransientModel):
         Task_id: 179613 - ASN functionality development
         """
         # Moves with same product
-        production_lot_obj = self.env['stock.production.lot']
         picking_id = existing_data.get('picking_id')
         product_id = existing_data.get('product_id')
         supplier_product_code = existing_data.get('supplier_product_code')
         supplier_short_code = existing_data.get('supplier_short_code')
-        # internal_lot = row_values.get('internal_lot')
-        # vendor_lot = row_values.get('vendor_lot')
         move_id = picking_id.move_ids_without_package.filtered(lambda m: m.product_id.id == product_id.id)
 
         if not move_id:
@@ -331,31 +323,12 @@ class ImportAsnEpt(models.TransientModel):
                 product_id.default_code or supplier_product_code, picking_id.name)
             raise ValidationError(_(error_msg + move_msg))
 
-        # if internal_lot and move_id.product_id.tracking == 'none':
-        #     raise ValidationError(_(error_msg + 'CSV contains lot but lot is not enabled in product: {}.'.format(
-        #         move_id.product_id.default_code)))
-
         if len(move_id) > 1:
             raise ValidationError(_(error_msg + 'Transfer: {}, '
                                                 'Multiple moves found for product : {}'.format(picking_id.name,
                                                                                                move_id.mapped(
                                                                                                    'product_id').display_name)))
 
-        # vendor_lot = supplier_short_code + vendor_lot if vendor_lot else ''
-        # # Lots Prepare: Preparing the domain for searching the lot.
-        # if internal_lot:
-        #     domain = [('product_id', '=', product_id.id),
-        #               ('name', '=', internal_lot)]
-        # else:
-        #     domain = [('product_id', '=', product_id.id),
-        #               ('ref', '=', vendor_lot)]
-        # Find: Lot as per the domain
-        # lot_id = production_lot_obj.search(domain)
-
-        # Move Lines
-        # Find: Move-lines with lot, either internal lot or vendor lot.
-        # move_line_ids = move_id.move_line_ids.filtered(
-        #     lambda ml: (ml.lot_name == internal_lot) or (ml.lot_id.ref and ml.lot_id.ref == vendor_lot))
         move_line_ids = move_id.move_line_ids
         existing_data.update({'move_line_ids': move_line_ids, 'move_id': move_id})
 
@@ -397,7 +370,7 @@ class ImportAsnEpt(models.TransientModel):
                 try:
                     move_line_ids[0].write({
                         'expected_qty': float(expected_qty),
-                        'product_uom_qty': float(expected_qty),
+                        'quantity': float(expected_qty),
                     })
                 except Exception as e:
                     _logger.exception("Transfer: {}, Updating Move Line "
@@ -409,10 +382,10 @@ class ImportAsnEpt(models.TransientModel):
                     picking_id.name)))
 
         # Remove unnecessary lines and maintain the `stock.quant`.
-        for move_id in picking_id.move_lines:
+        for move_id in picking_id.move_ids:
             try:
                 move_id.move_line_ids.filtered(
-                    lambda x: x.product_uom_qty and not x.expected_qty).unlink()
+                    lambda x: x.quantity and not x.expected_qty).unlink()
             except Exception as e:
                 _logger.exception("Transfer: {}, Move Line Delete Exception: {}".format(
                     picking_id._name, e))
@@ -426,7 +399,6 @@ class ImportAsnEpt(models.TransientModel):
         Task_id: 179613 - ASN functionality development
         """
         quant_package_obj = self.env['stock.quant.package']
-        stock_production_lot = self.env['stock.production.lot']
         vals = {}
         if row.get('package', False):
             vals['name'] = row.get('package')
@@ -434,21 +406,6 @@ class ImportAsnEpt(models.TransientModel):
             package_id = quant_package_obj.with_context(is_asn_package=True).create(vals)
         except Exception as e:
             raise ValidationError("Transfer: {}, Package Creation Exception: {}".format(picking_id._name, e))
-
-        # Create lot if not exists!
-        # if not lot_id:
-        # if internal_lot:
-        #     lot_name = internal_lot
-        # else:
-        # lot_name = lot_id.env['ir.sequence'].next_by_code('stock.lot.serial')
-        # try:
-        #     lot_id = stock_production_lot.create({
-        #         'name': lot_name,
-        #         'product_id': product_id.id,
-        #         'company_id': self.env.company.id
-        #     })
-        # except Exception as e:
-        #     raise ValidationError("Transfer: {}, Lot Creation Exception: {}".format(picking_id._name, e))
         return package_id
 
     def prepare_move_line_vals(self, move_id, package_id, expected_qty, picking_id):
@@ -461,14 +418,12 @@ class ImportAsnEpt(models.TransientModel):
         vals = {
             'move_id': move_id.id,
             'result_package_id': package_id.id,
-            # 'lot_id': lot_id.id,
-            # 'lot_name': lot_id.name,
             'product_id': move_id.product_id.id,
             'product_uom_id': move_id.product_uom.id,
             'location_dest_id': move_id.location_dest_id.id,
             'location_id': move_id.location_id.id,
             'expected_qty': float(expected_qty),
-            'product_uom_qty': float(expected_qty),
+            'quantity': float(expected_qty),
             'picking_id': picking_id.id,
             'qty_done': float(expected_qty),
         }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-    <t t-name="SetSalesmanButton" owl="1">
+    <t t-name="pos_extended.SetSalesmanButton" owl="1">
         <div class="control-button o_selection_salesman_button">
             <i class="fa fa-user" role="img" aria-label="Set Salesman"
-               title="Set Salesman" />
-            <t t-esc='currentSelectedSalesmanName' />
+               title="Set Salesman"/>
+            <t t-esc='currentSelectedSalesmanName'/>
         </div>
     </t>
 </templates>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<templates id="template" xml:space="preserve">
-    <t t-name="SetEffortButton" owl="1">
-        <div class="control-button js_with_effort"
-             t-att-class="{ highlight: currentOrder.is_effort() }" t-on-click="toggleWithEffort">
-            <i class="fa fa-file-text-o"/>With Effort</div>
-    </t>
-</templates>

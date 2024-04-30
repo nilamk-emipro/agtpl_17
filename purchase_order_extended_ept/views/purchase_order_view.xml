@@ -8,19 +8,16 @@
         <field name="arch" type="xml">
             <field name="currency_id" position="after">
                 <field name="has_pre_export_vendor"/>
-                <field name="pre_export_vendor" attrs="{'invisible': [('has_pre_export_vendor', '=', False)]}"/>
+                <field name="pre_export_vendor" invisible="not has_pre_export_vendor"/>
             </field>
             <xpath expr="//tree/field[@name='price_unit']" position="after">
                 <field name="vendor_packing_instruction"/>
-                <field name="pre_export_vendor_unit_price"
-                       attrs="{'column_invisible': [('parent.has_pre_export_vendor', '=', False)]}"/>
-                <field name="pre_export_vendor_amount"
-                       attrs="{'column_invisible': [('parent.has_pre_export_vendor', '=', False)]}"/>
+                <field name="pre_export_vendor_unit_price" column_invisible="not parent.has_pre_export_vendor"/>
+                <field name="pre_export_vendor_amount" column_invisible="not parent.has_pre_export_vendor"/>
             </xpath>
-            <xpath expr="//group[@class='oe_subtotal_footer oe_right']" position="inside">
-                <label for="total_pre_export_vendor_amount"  class="oe_inline"
-                       attrs="{'invisible': [('has_pre_export_vendor', '=', False)]}"/>
-                <div class="o_row o_row_readonly" attrs="{'invisible': [('has_pre_export_vendor', '=', False)]}">
+            <xpath expr="//group[@class='oe_subtotal_footer']" position="inside">
+                <label for="total_pre_export_vendor_amount" class="oe_inline" invisible="not has_pre_export_vendor"/>
+                <div class="o_row o_row_readonly" invisible="not has_pre_export_vendor">
                     <field name="total_pre_export_vendor_amount"/>
                 </div>
             </xpath>
