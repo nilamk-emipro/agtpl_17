@@ -3,10 +3,10 @@
 <t t-name="pos_extended.salesman_productScreen" t-inherit="point_of_sale.ProductScreen" t-inherit-mode="extension">
         <xpath expr="//div/div/div[2]" position="before">
             <div name="row" class="control-buttons d-flex flex-wrap border-bottom overflow-hidden bg-300">
-                <button class="control-button btn btn-light rounded-0 fw-bolder"
+                <button class="control-button set-partner btn btn-light rounded-0 py-2 flex-shrink-1 fw-bolder"
                         t-on-click="onClick">
                         <div class="d-flex justify-content-center align-items-center ">
-                            <span class="d-flex justify-content-center align-items-center rounded-circle me-2 text-bg-dark"
+                            <span class="d-flex justify-content-center align-items-center rounded-circle me-2"
                                   t-if="!ui.isSmall">
                                 <i class="fa fa-user" role="img" aria-label="Salesman" title="Salesman"/>
                             </span>
@@ -18,11 +18,11 @@
                             </div>
                         </div>
                 </button>
-                <button class="control-button btn btn-light rounded-0 fw-bolder"
+                <button class="control-button set-partner btn btn-light rounded-0 fw-bolder"
                         t-on-click="toggleWithEffort">
                     <span t-debug="is_effort"/>
                     <div class="d-flex justify-content-center align-items-center">
-                        <span class="d-flex justify-content-center align-items-center rounded-circle me-2 text-bg-dark"
+                        <span class="d-flex justify-content-center align-items-center rounded-circle me-2"
                               t-if="!ui.isSmall">
                             <i class="fa fa-file-text" role="img" aria-label="With Effort" title="With Effort"/>
                         </span>
