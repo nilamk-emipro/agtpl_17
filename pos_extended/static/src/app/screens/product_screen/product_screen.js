@@ -10,14 +10,6 @@ patch(ProductScreen.prototype, {
     async onClick() {
         const currentSalesman = this.currentOrder.salesman_id;
         const salesmanList = [];
-//        const salesmanList = [
-//            {
-//                id: -1,
-//                label: _t("None"),
-//                isSelected: !currentSalesman,
-//            },
-//        ];
-//
         const loadedData = await this.orm.call("pos.config", "load_authorized_salesman_ids", [
             [],
         ]);

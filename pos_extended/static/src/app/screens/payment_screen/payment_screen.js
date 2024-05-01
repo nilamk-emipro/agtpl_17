@@ -6,23 +6,7 @@ import { _t } from "@web/core/l10n/translation";
 import { ErrorPopup } from "@point_of_sale/app/errors/popups/error_popup";
 
 patch(PaymentScreen.prototype, {
-//    onMounted() {
-//        setTimeout(async () => {
-//            if (this.currentOrder.selectPartner() != null && this.currentOrder.is_to_invoice() == false){
-//                await this.toggleIsToInvoice();
-//            }
-//            if (this.currentOrder.is_to_invoice() == true && this.currentOrder.toggleIsToInvoice() == null){
-//                await this.toggleIsToInvoice();
-//            }
-//            const currentClient = this.currentOrder.toggleIsToInvoice();
-//            if(currentClient){
-//                this.set_partner_warning(currentClient);
-//            }
-//        }, 0);
-//    }
     async selectPartner(isEditMode = false, missingFields = []) {
-        // IMPROVEMENT: This code snippet is repeated multiple times.
-        // Maybe it's better to create a function for it.
         const currentPartner = this.currentOrder.get_partner();
         const partnerScreenProps = { partner: currentPartner };
         if (isEditMode && currentPartner) {

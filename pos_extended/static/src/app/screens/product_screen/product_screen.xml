@@ -20,14 +20,15 @@
                 </button>
                 <button class="control-button btn btn-light rounded-0 fw-bolder"
                         t-on-click="toggleWithEffort">
-                    <div class="d-flex justify-content-center align-items-center "
-                         t-att-class="{ highlight: with_effort}">
+                    <span t-debug="is_effort"/>
+                    <div class="d-flex justify-content-center align-items-center">
                         <span class="d-flex justify-content-center align-items-center rounded-circle me-2 text-bg-dark"
                               t-if="!ui.isSmall">
                             <i class="fa fa-file-text" role="img" aria-label="With Effort" title="With Effort"/>
                         </span>
                         <t t-esc="with_effort"/>
-                        <div class="text-truncate fw-bolder text-action">
+                        <div class="fw-bolder"
+                             t-att-class="{'text-action': this.props.with_effort}">
                             With Effort
                         </div>
                     </div>

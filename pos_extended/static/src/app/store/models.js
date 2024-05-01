@@ -18,14 +18,12 @@ patch(Order.prototype, {
         }
     },
     set_salesman(salesman_id) {
-//        this.order.assert_editable();
         this.salesman_id = salesman_id;
     },
     get_salesman() {
         return this.salesman_id;
     },
     set_effort(with_effort){
-//        this.order.assert_editable();
         this.with_effort = with_effort;
     },
     is_effort(){
@@ -91,52 +89,3 @@ patch(Order.prototype, {
 //    }*/
 //    }
 });
-
-
-//patch(Order.prototype, {
-//    setup(_defaultObj, options) {
-//        super.setup(...arguments);
-//        this.with_effort = this.with_effort;
-//        this.salesman_id = this.salesman_id;
-//        this.save_to_db();
-//    },
-//    init_from_JSON(json) {
-//        super.init_from_JSON(...arguments);
-//        this.with_effort =  json.with_effort;
-//        this.salesman_id = json.salesman_id;
-//    },
-//    export_as_JSON() {
-//        const json = super.export_as_JSON(...arguments);
-//        json.with_effort = this.with_effort || false;
-//        json.salesman_id = this.salesman_id ? this.salesman_id.id : false;
-//        return json;
-//    },
-//    export_for_printing() {
-//        const result = super.export_for_printing(...arguments);
-//        result.l10n_co_dian = this.get_l10n_co_dian();
-//        result.company.street = this.pos.company.street;
-//        result.company.street2 = this.pos.company.street2;
-//        result.company.country = this.pos.company.country_id;
-//        result.company.state = this.pos.company.state_id;
-//        result.company.city = this.pos.company.city;
-//        result.company.zip = this.pos.company.zip;
-//        result.invoice_no = this.pos.invoice_no
-//        result.invoice_date = this.pos.invoice_date
-//        result.AckNo = this.pos.AckNo
-//        result.Irn = this.pos.Irn
-//        result.qr_code = this.pos.qr_code
-//        result.session_id = this.pos.session_id
-//        result.pos_order_id = this.pos.pos_order_id
-//        result.order_date = this.pos.order_date
-//        result.company_title = this.pos.company_title
-//        result.company_street = this.pos.company_street
-//        result.company_street2 = this.pos.company_street2
-//        result.company_city = this.pos.company_city
-//        result.company_state_id = this.pos.company_state_id
-//        result.company_zip = this.pos.company_zip
-//        result.company_country_id = this.pos.company_country_id
-//    return result;
-//    }
-//});
-
-
